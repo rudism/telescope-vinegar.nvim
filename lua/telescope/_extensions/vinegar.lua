@@ -22,7 +22,23 @@ return telescope.register_extension {
       end
 
       opts.depth = opts.depth or 1
-      opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or utils.buffer_dir()
+      opts.cwd = utils.buffer_dir()
+
+      -- get current buffer's index for initial selection
+      local curfile = vim.fn.expand('%:p')
+      local count = 0
+      scan.scan_dir(opts.cwd, {
+        hidden = opts.hidden or false,
+        add_dirs = true,
+        depth = opts.depth,
+        on_insert = function(entry, typ)
+          count = count + 1
+          if typ ~= 'directory' and curfile == entry then
+            opts.default_selection_index = count
+          end
+        end,
+      })
+
       opts.new_finder = opts.new_finder
         or function(o)
           opts.cwd = o.path
@@ -99,12 +115,14 @@ return telescope.register_extension {
         previewer = conf.file_previewer(opts),
         sorter = conf.file_sorter(opts),
         initial_mode = opts.initial_mode or 'normal',
+        default_selection_index = opts.default_selection_index,
         attach_mappings = function(prompt_bufnr, map)
           action_set.select:replace_if(function()
             return is_dir(action_state.get_selected_entry().path)
           end, function()
             local new_cwd = vim.fn.expand(action_state.get_selected_entry().path:sub(1, -2))
             local current_picker = action_state.get_current_picker(prompt_bufnr)
+            current_picker.default_selection_index = nil
             current_picker.cwd = new_cwd
             current_picker:refresh(opts.new_finder({ path = new_cwd, hidden = opts.hidden }), { reset_prompt = true })
             vim.cmd('stopinsert')
@@ -142,6 +160,7 @@ return telescope.register_extension {
 
           map("n", "-", function() -- go up a level
             local current_picker = action_state.get_current_picker(prompt_bufnr)
+            current_picker.default_selection_index = nil
             local new_cwd = Path:new(current_picker.cwd):parent():absolute()
             refresh_prompt(new_cwd)
           end)
