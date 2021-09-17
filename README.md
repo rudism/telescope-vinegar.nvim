@@ -2,10 +2,6 @@
 
 A modified version of [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)'s built-in file browser with behavior inspired by [vim-vinegar](https://github.com/tpope/vim-vinegar) and [vim-filebeagle](https://github.com/jeetsukumaran/vim-filebeagle).
 
-## Archived
-
-After using this for a while I've decided that Telescope is the wrong tool for this. I'm just sticking with `netrw`.
-
 ## Usage
 
 File browser opens in the current buffer's directory in normal mode by default.
