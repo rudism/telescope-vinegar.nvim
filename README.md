@@ -27,7 +27,7 @@ require('telescope').extensions.vinegar.file_browser()
 
 ## Example Config
 
-The following config maps `-` to the file browser, disables `netrw`, and automatically opens the file browser when you launch nvim with a directory as the file argument.
+The following config maps `-` to the file browser, disables `netrw`, and automatically opens the file browser when you launch nvim with a directory as the file argument (uses [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)).
 
 ```lua
 -- add keybinding
