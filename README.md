@@ -1,3 +1,5 @@
+**Note:** Active development has moved to https://code.sitosis.com/rudism/telescope-vinegar.nvim
+
 # telescope-vinegar.nvim
 
 A modified version of [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)'s built-in file browser with behavior inspired by [vim-vinegar](https://github.com/tpope/vim-vinegar) and [vim-filebeagle](https://github.com/jeetsukumaran/vim-filebeagle).
